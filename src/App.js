@@ -1,111 +1,87 @@
 import React from "react";
-import ApolloClient from 'apollo-boost'
-import gql from 'graphql-tag'
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
-import LoginPage from "./LoginPage";
-import Pins from "./Pins";
-import AddPin from "./AddPin";
-import Nav from "./Nav";
 import Container from "./Container";
-
-const client = new ApolloClient({
-  uri: process.ENV.REACT_APP_API_URL
-});
+import LoginPageContainer from "./LoginPageContainer";
+import PinsPageContainer from "./PinsPageContainer";
+import AddPinPageContainer from "./AddPinPageContainer";
+import VerifyPageContainer from "./VerifyPageContainer";
+import Nav from "./Nav";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pins: []
-      authenticated: false,
-      user: this.getInitialState()
+      long_token: null,
+      client: new ApolloClient({
+        uri: process.env.REACT_APP_API_URL,
+        request: operation => {
+          if (this.state.long_token) {
+            operation.setContext({
+              headers: { Authorization: this.state.long_token }
+            });
+          }
+        }
+      })
     };
   }
 
   componentDidMount() {
-    client.query({
-      query: gql`
-      {
-        pins {
-          title
-          image
-          link
-        }
-      }
-      `
-    })
-      .then(results => this.setState({pins: results.data.pins}))
-  }
-
-  addPin = pin => {
-    this.setState(({ pins }) => ({
-      pins: pins.concat([pin])
-    }));
-  };
-
-  getInitialState = () => {
-    const option = localStorage.getItem("user");
-    return option;
-  };
-
-  verify = () => {
-    return sucess().then(token =>
-      this.setState({
-        authenticated: true,
-        user: {
-          email: "lucastercas@gmail.com"
+    console.log("App Did Mount");
+    const long_token = localStorage.getItem("long_token");
+    console.log('Found Long Token')
+    if (long_token) {
+      this.setState({ long_token: long_token });
+    }
+    this.setState({
+      client: new ApolloClient({
+        uri: process.env.REACT_APP_API_URL,
+        request: operation => {
+          if (this.state.long_token) {
+            operation.setContext({
+              headers: { Authorization: this.state.long_token }
+            });
+          }
         }
       })
-    );
-  };
-
-  authenticate = user => {
-    localStorage.setItem("user", user);
-    this.setState({ user: user });
-    return Promise.resolve({});
-  };
+    });
+  }
 
   logout = () => {};
 
   render() {
     return (
-      <Container>
-        <Pins pins={this.state.pins} />
-        <AddPin addPin={this.addPin} authenticated={this.authenticated}/>
-        <LoginPage authenticate={this.authenticate} />
-        <Nav />
-      </Container>
+      <ApolloProvider client={this.state.client}>
+        <Container>
+          <PinsPageContainer authenticated={this.state.long_token} />
+          <AddPinPageContainer authenticated={this.state.long_token} />
+          <LoginPageContainer />
+          <VerifyPageContainer
+            onToken={long_token => {
+              console.log("Setting Long Token");
+              localStorage.setItem("long_token", long_token);
+              this.setState({ long_token: long_token });
+            }}
+          />
+          <Nav authenticated={this.state.long_token} />
+        </Container>
+      </ApolloProvider>
     );
   }
 }
 
+/*
 function wait(time) {
-  return new Promise((res, rej) => {
+  return new Promise((res, _rej) => {
     setTimeout(res, time);
   });
 }
+*/
 
-function sucess() {
-  return wait(1000).then(() => "long-token");
+/*
+async function sucess() {
+  await wait(1000);
+  return "long-token";
 }
-
-const mockPins = [
-  {
-    link: "https://pinterest.com/pin/637540890973869441/",
-    image:
-      "https://i.pinimg.com/564x/5a/22/2c/5a222c93833379f00777671442df7cd2.jpg",
-    title: "Modern"
-  },
-  {
-    link: "https://pinterest.com/pin/487585097141051238/",
-    image:
-      "https://i.pinimg.com/564x/85/ce/28/85ce286cba63daf522464a7d680795ba.jpg",
-    title: "Broadcat Clean Titles"
-  },
-  {
-    link: "https://pinterest.com/pin/618611698790230574/",
-    image:
-      "https://i.pinimg.com/564x/00/7a/2e/007a2ededa8b0ce87e048c60fa6f847b.jpg",
-    title: "Drawing"
-  }
-];
+*/

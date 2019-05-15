@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class LoginPage extends Component {
   };
 
   handleLogin = evt => {
+    console.log("Logging In");
     evt.preventDefault();
     if (!this.state.email) {
       this.setState({
@@ -27,12 +28,13 @@ class LoginPage extends Component {
       return;
     }
     this.props
-      .authenticate()
+      .authenticate(this.state.email)
       .then(() => this.setState({ done: true, loading: false }))
       .catch(() => this.setState({ loading: false }));
   };
 
   render() {
+    //console.log("Rendering Login Page");
     if (!this.props.match) {
       return null;
     }
