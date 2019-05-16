@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "font-awesome/css/font-awesome.min.css";
 import { Link, withRouter } from "react-router-dom";
 
 class Nav extends Component {
@@ -13,13 +14,19 @@ class Nav extends Component {
     return (
       <nav className="nav">
         <Link to="/">
-          <button>Home</button>
+          <button className="btn-home">
+            <i className="fa fa-home" />
+          </button>
         </Link>
         <Link to="/upload-pin">
-          <button>Add a Pin</button>
+          <button className="btn-add-pin">
+            <i className="fa fa-plus" />
+          </button>
         </Link>
         <Link to="/profile">
-          <button>Profile</button>
+          <button className="btn-profile">
+            <i className="fa fa-user" />
+          </button>
         </Link>
       </nav>
     );

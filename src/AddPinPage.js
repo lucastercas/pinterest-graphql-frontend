@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 class AddPinPage extends Component {
   constructor(props) {
@@ -29,29 +29,42 @@ class AddPinPage extends Component {
   render() {
     return (
       <div className="add-pin">
-        <h3>Add Pin</h3>
-        <h2>Auth: {this.props.authenticated}</h2>
-        <form onSubmit={this.addPin}>
-          <input
-            type="text"
-            value={this.state.title}
-            onChange={evt => this.setState({ title: evt.target.value })}
-            required
-          />
-          <input
-            type="url"
-            value={this.state.link}
-            onChange={evt => this.setState({ link: evt.target.value })}
-            required
-          />
-          <input
-            type="url"
-            value={this.state.image}
-            onChange={evt => this.setState({ image: evt.target.value })}
-            required
-          />
-          <button>Save</button>
-        </form>
+        {!this.props.authenticated ? (
+          <div className="text-center">
+            <h2>You have to Log In to post:</h2>
+            <Link to="/login">
+              <button>Login</button>
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <h3>Add Pin</h3>
+            <form onSubmit={this.addPin}>
+              <input
+                type="text"
+                value={this.state.title}
+                onChange={evt => this.setState({ title: evt.target.value })}
+                placeholder="Title"
+                required
+              />
+              <input
+                type="url"
+                value={this.state.link}
+                onChange={evt => this.setState({ link: evt.target.value })}
+                placeholder="Link"
+                required
+              />
+              <input
+                type="url"
+                value={this.state.image}
+                onChange={evt => this.setState({ image: evt.target.value })}
+                placeholder="Image"
+                required
+              />
+              <button>Save</button>
+            </form>
+          </div>
+        )}
       </div>
     );
   }

@@ -7,6 +7,7 @@ import LoginPageContainer from "./LoginPageContainer";
 import PinsPageContainer from "./PinsPageContainer";
 import AddPinPageContainer from "./AddPinPageContainer";
 import VerifyPageContainer from "./VerifyPageContainer";
+import ProfilePageContainer from './ProfilePageContainer'
 import Nav from "./Nav";
 
 export default class App extends React.Component {
@@ -57,6 +58,7 @@ export default class App extends React.Component {
           <PinsPageContainer authenticated={this.state.long_token} />
           <AddPinPageContainer authenticated={this.state.long_token} />
           <LoginPageContainer />
+          <ProfilePageContainer token={this.state.long_token}/>
           <VerifyPageContainer
             onToken={long_token => {
               console.log("Setting Long Token");
@@ -70,18 +72,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-/*
-function wait(time) {
-  return new Promise((res, _rej) => {
-    setTimeout(res, time);
-  });
-}
-*/
-
-/*
-async function sucess() {
-  await wait(1000);
-  return "long-token";
-}
-*/

@@ -2,45 +2,50 @@ import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 
 class Pins extends Component {
+  renderNoPins = () => {
+    return (
+      <div>
+        <h3>There are no pins yet.</h3>
+        {this.props.authenticated ? (
+          <div>Create One</div>
+        ) : (
+          <div>Login to Create One</div>
+        )}
+      </div>
+    );
+  };
+
   render() {
     if (!this.props.match) {
       return null;
     }
-    return (
-      <div>
-        {this.props.pins.length === 0 ? (
-          <div>
-            <div>There are no pins yet</div>
-            {!!this.props.authenticated && (
-              <div>
-                login to create one:
-                <Link to="/login">
-                  <button>Login</button>
-                </Link>
-              </div>
-            )}
-          </div>
-        ) : (
+    if (this.props.pins.length === 0) {
+      return this.renderNoPins();
+    } else {
+      return (
+        <div>
           <ul className="pins">
             {this.props.pins.map((pin, idx) => (
               <li className="pin" key={idx}>
                 <a target="_blank" href={pin.link} rel="noopener noreferrer">
                   <img src={pin.image} alt="" />
-                  <h4 className="title">{pin.title}</h4>
+                  <h4 className="title text-center">{pin.title}</h4>
                 </a>
               </li>
             ))}
           </ul>
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 
-export default ({ pins = [] }) => {
+export default ({ pins = [], authenticated }) => {
   return (
     <Route exact path="/">
-      {({ match }) => <Pins pins={pins} match={match} />}
+      {({ match }) => (
+        <Pins pins={pins} authenticated={authenticated} match={match} />
+      )}
     </Route>
   );
 };

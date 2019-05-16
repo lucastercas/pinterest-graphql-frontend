@@ -1,10 +1,13 @@
+$red: #cc241d;
+
+.text-center {
+  text-align: center;
+  align-self: center;
+}
+
 .App {
   padding-left: 100px;
   padding-right: 100px;
-}
-
-.button {
-  color: red;
 }
 
 .login-page {
@@ -43,7 +46,7 @@
   }
 
   button {
-    background-color: #cc241d;
+    background-color: $red;
     padding: 11px 14px;
     border-radius: 6px;
     font-size: 16px;
@@ -88,7 +91,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 200px;
     flex: 1;
     display: flex;
     align-items: center;
@@ -104,6 +106,37 @@
   width: 100%;
   bottom: 0;
   left: 0;
+  
+  a {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  button {
+    border-radius: 100px;
+    cursor: pointer;
+  }
+
+  i {
+    font-size: 2rem;
+    color: black;
+    padding: 0.7rem;
+  }
+
+  button:hover {
+    opacity: 50%;
+  }
+  
+  .btn-home {
+    background-color: blue;
+  }
+  .btn-add-pin {
+    background-color: $red;
+  }
+  .btn-profile {
+    background-color:  green;
+  }
 }
 
 .add-pin {
@@ -125,7 +158,7 @@
   }
 
   button {
-    background-color: #cc241d;
+    background-color: $red;
     padding: 11px 14px;
     border-radius: 6px;
     font-size: 16px;

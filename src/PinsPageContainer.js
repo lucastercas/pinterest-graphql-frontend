@@ -8,7 +8,7 @@ export default class PinsContainer extends Component {
   render() {
     return (
       <Query query={LIST_PINS}>
-        {({ _, __, data }) => {
+        {({ data }) => {
           return (
             <PinsPage
               pins={data.pins}
