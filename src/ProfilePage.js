@@ -1,21 +1,23 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
 
-class ProfilePage extends Component {
+export default class ProfilePage extends Component {
   render() {
     if (!this.props.match) {
       return null;
     }
+    console.debug('Rendering Profile Page')
     return (
       <div>
+        iaeiaeiae
         <div>
-          {this.props.user ? this.props.user.email : 'No Email'}
+          {this.props.user ? this.props.user.me.email : 'No Email'}
         </div>
       </div>
     );
   }
 }
 
+  /*
 export default ({ token, user }) => {
   return (
     <Route exact path="/profile">
@@ -23,3 +25,4 @@ export default ({ token, user }) => {
     </Route>
   );
 };
+*/

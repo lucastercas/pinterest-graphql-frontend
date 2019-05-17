@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 
-class Pins extends Component {
+export default class Pins extends Component {
   renderNoPins = () => {
     return (
       <div>
@@ -19,6 +19,7 @@ class Pins extends Component {
     if (!this.props.match) {
       return null;
     }
+    console.debug('Rendering Pins Page')
     if (this.props.pins.length === 0) {
       return this.renderNoPins();
     } else {
@@ -40,12 +41,3 @@ class Pins extends Component {
   }
 }
 
-export default ({ pins = [], authenticated }) => {
-  return (
-    <Route exact path="/">
-      {({ match }) => (
-        <Pins pins={pins} authenticated={authenticated} match={match} />
-      )}
-    </Route>
-  );
-};

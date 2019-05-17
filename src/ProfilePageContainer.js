@@ -1,22 +1,27 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
+import { Route, Link } from "react-router-dom";
 
 import ProfilePage from "./ProfilePage";
 import { ME } from "./queries";
 
 export default class ProfilePageContainer extends Component {
-  test = (data) =>{
-    console.log('iae')
-    console.log(data.me)
-  }
   render() {
+    console.debug('Rendering Profile Container')
     return (
-      <Query query={ME} fetchPolicy="network-only">
+      <Query query={ME}>
         {({data}) => {
           return (
             <div>
-              <ProfilePage token={this.props.token} user={data.me} />
-              { this.test(data)}
+              <Route exact path="/profile">
+                { 
+                  ({match} ) => (
+                    <ProfilePage token={this.props.token} match={match} 
+                      user={data}
+                    />
+                  )
+                }
+              </Route>
             </div>
           );
         }}

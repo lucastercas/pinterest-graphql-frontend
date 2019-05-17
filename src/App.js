@@ -1,6 +1,8 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 import Container from "./Container";
 import LoginPageContainer from "./LoginPageContainer";
@@ -54,6 +56,23 @@ export default class App extends React.Component {
   render() {
     return (
       <ApolloProvider client={this.state.client}>
+        <Router>
+          <Switch>
+            <Route path='/' exact>
+              {
+                ({match}) => (
+                  <PinsPageContainer authenticated={this.state.long_token} match={match}/>
+                )
+              }
+            </Route>
+          </Switch>
+          <Nav authenticated={this.state.long_token} />
+        </Router>
+      </ApolloProvider>
+    );
+    /*
+    return (
+      <ApolloProvider client={this.state.client}>
         <Container>
           <PinsPageContainer authenticated={this.state.long_token} />
           <AddPinPageContainer authenticated={this.state.long_token} />
@@ -70,5 +89,6 @@ export default class App extends React.Component {
         </Container>
       </ApolloProvider>
     );
+    */
   }
 }
