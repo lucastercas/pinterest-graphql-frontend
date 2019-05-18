@@ -29,7 +29,9 @@ export default class Pins extends Component {
               <li className="pin" key={idx}>
                 <a target="_blank" href={pin.link} rel="noopener noreferrer">
                   <img src={pin.image} alt="" />
-                  <h4 className="title text-center">{pin.title}</h4>
+                  <div>
+                    <h4 className="title text-center">{pin.id}</h4>
+                  </div>
                 </a>
               </li>
             ))}

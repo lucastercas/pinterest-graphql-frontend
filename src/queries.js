@@ -22,22 +22,34 @@ export const LIST_PINS = gql`
   }
 `;
 
+export const GET_PIN = gql`
+  query PinId($id: String!) {
+    pinById(id: $id) {
+      id
+      title
+      link
+      image
+      user_id
+    }
+  }
+`;
+
 export const CREATE_LONG_LIVED_TOKEN = gql`
-mutation CreateLongLivedToken($short_token: String!) {
-  createLongLivedToken(short_token: $short_token)
-}
+  mutation CreateLongLivedToken($short_token: String!) {
+    createLongLivedToken(short_token: $short_token)
+  }
 `;
 
 export const CREATE_SHORT_LIVED_TOKEN = gql`
-mutation CreateShortLivedToken($email: String!) {
-  sendShortLivedToken(email: $email)
-}
+  mutation CreateShortLivedToken($email: String!) {
+    sendShortLivedToken(email: $email)
+  }
 `;
 
 export const ME = gql`
-{
-  me {
-    email
+  {
+    me {
+      email
+    }
   }
-}
 `;

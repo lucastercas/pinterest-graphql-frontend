@@ -72,6 +72,8 @@ $red: #cc241d;
 .pin {
   display: flex;
   max-height: 400px;
+  overflow-wrap: break-word;
+
   a {
     width: 100%;
     display: flex;
@@ -89,8 +91,6 @@ $red: #cc241d;
   .title {
     font-weight: 700;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     flex: 1;
     display: flex;
     align-items: center;

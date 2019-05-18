@@ -13,6 +13,7 @@ const AsyncLoginPageContainer = asyncComponent(() =>
 const AsyncPinsPageContainer = asyncComponent(() =>
   import("./PinsPageContainer")
 );
+const AsyncPinPageContainer = asyncComponent(() => import("./PinPageContainer"));
 const AsyncProfilePagecontainer = asyncComponent(() =>
   import("./ProfilePageContainer")
 );
@@ -69,7 +70,7 @@ export default class App extends React.Component {
       <ApolloProvider client={this.state.client}>
         <Router>
           <Switch>
-            <Route path="/" exact>
+            <Route path={["/", "/pins"]} exact>
               {routerProps => (
                 <AsyncPinsPageContainer
                   {...routerProps}
@@ -111,6 +112,9 @@ export default class App extends React.Component {
                   {...routerProps}
                 />
               )}
+            </Route>
+            <Route path="/pins/:id">
+              {routerProps => <AsyncPinPageContainer {...routerProps} />}
             </Route>
           </Switch>
           <Nav authenticated={this.state.long_token} />

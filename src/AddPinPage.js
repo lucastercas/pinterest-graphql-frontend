@@ -7,7 +7,7 @@ export default class AddPinPage extends Component {
     this.state = {
       title: "",
       link: "",
-      image: ""
+      image: "",
     };
   }
 
@@ -16,12 +16,12 @@ export default class AddPinPage extends Component {
     this.props.addPin({
       title: this.state.title,
       link: this.state.link,
-      image: this.state.image
+      image: this.state.image,
     });
     this.setState({
       title: "",
       link: "",
-      image: ""
+      image: "",
     });
     this.props.history.push("/");
   };
