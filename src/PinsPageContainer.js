@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import { Route, Link } from "react-router-dom";
 
 import PinsPage from "./PinsPage";
 import { LIST_PINS } from "./queries";
@@ -14,8 +13,7 @@ export default class PinsContainer extends Component {
           return (
             <PinsPage
               pins={data.pins || []}
-              authenticated={this.props.authenticated}
-              match={this.props.match}
+              {...this.props}
             />
           )
         }}

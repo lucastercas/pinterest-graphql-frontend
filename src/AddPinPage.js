@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-class AddPinPage extends Component {
+export default class AddPinPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,6 +27,10 @@ class AddPinPage extends Component {
   };
 
   render() {
+    if (!this.props.match) {
+      return null;
+    }
+    console.debug("Rendering Add Pin");
     return (
       <div className="add-pin">
         {!this.props.authenticated ? (
@@ -69,12 +73,3 @@ class AddPinPage extends Component {
     );
   }
 }
-
-export default ({ addPin = () => {}, ...props }) => (
-  <Route
-    path="/upload-pin"
-    component={routerProps => (
-      <AddPinPage {...routerProps} {...props} addPin={addPin} />
-    )}
-  />
-);

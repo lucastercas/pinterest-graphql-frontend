@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
 
-class LoginPage extends Component {
+export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,6 +64,7 @@ class LoginPage extends Component {
   }
 }
 
+/*
 export default props => {
   return (
     <Route exact path="/login">
@@ -72,3 +72,4 @@ export default props => {
     </Route>
   );
 };
+*/

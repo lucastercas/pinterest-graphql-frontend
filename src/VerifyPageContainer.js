@@ -5,7 +5,8 @@ import VerifyPage from "./VerifyPage";
 import { CREATE_LONG_LIVED_TOKEN, ME } from "./queries";
 
 export default class VerifyPageContainer extends Component {
-  render() {
+  render() {  
+    console.debug("Rendering Verify Page Container");
     return (
       <Mutation
         mutation={CREATE_LONG_LIVED_TOKEN}
@@ -26,6 +27,7 @@ export default class VerifyPageContainer extends Component {
                 refetchQueries: [{ query: ME, }]
               })
             }
+            {...this.props}
           />
         )}
       </Mutation>

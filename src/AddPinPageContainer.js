@@ -6,6 +6,7 @@ import { ADD_PIN, LIST_PINS } from "./queries";
 
 export default class AddPinPageContainer extends Component {
   render() {
+    console.debug('Rendering Add Pin Container')
     return (
       <Mutation mutation={ADD_PIN}>
         {addPin => (
@@ -17,6 +18,7 @@ export default class AddPinPageContainer extends Component {
                 refetchQueries: [{ query: LIST_PINS }]
               })
             }
+            {...this.props}
           />
         )}
       </Mutation>

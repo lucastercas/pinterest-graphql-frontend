@@ -2,15 +2,26 @@ import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
-import Container from "./Container";
-import LoginPageContainer from "./LoginPageContainer";
-import PinsPageContainer from "./PinsPageContainer";
-import AddPinPageContainer from "./AddPinPageContainer";
-import VerifyPageContainer from "./VerifyPageContainer";
-import ProfilePageContainer from './ProfilePageContainer'
+import asyncComponent from "./AsyncComponent";
 import Nav from "./Nav";
+
+const AsyncLoginPageContainer = asyncComponent(() =>
+  import("./LoginPageContainer")
+);
+const AsyncPinsPageContainer = asyncComponent(() =>
+  import("./PinsPageContainer")
+);
+const AsyncProfilePagecontainer = asyncComponent(() =>
+  import("./ProfilePageContainer")
+);
+const AsyncAddPinsContainer = asyncComponent(() =>
+  import("./AddPinPageContainer")
+);
+const AsyncVerifyPageContainer = asyncComponent(() =>
+  import("./VerifyPageContainer")
+);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -33,7 +44,7 @@ export default class App extends React.Component {
   componentDidMount() {
     console.log("App Did Mount");
     const long_token = localStorage.getItem("long_token");
-    console.log('Found Long Token')
+    console.log("Found Long Token");
     if (long_token) {
       this.setState({ long_token: long_token });
     }
@@ -58,37 +69,53 @@ export default class App extends React.Component {
       <ApolloProvider client={this.state.client}>
         <Router>
           <Switch>
-            <Route path='/' exact>
-              {
-                ({match}) => (
-                  <PinsPageContainer authenticated={this.state.long_token} match={match}/>
-                )
-              }
+            <Route path="/" exact>
+              {routerProps => (
+                <AsyncPinsPageContainer
+                  {...routerProps}
+                  authenticated={this.state.long_token}
+                />
+              )}
+            </Route>
+            <Route path="/profile" exact>
+              {routerProps => (
+                <AsyncProfilePagecontainer
+                  {...routerProps}
+                  authenticated={this.state.long_token}
+                />
+              )}
+            </Route>
+            <Route path="/upload-pin" exact>
+              {routerProps => (
+                <AsyncAddPinsContainer
+                  {...routerProps}
+                  authenticated={this.state.long_token}
+                />
+              )}
+            </Route>
+            <Route exact path="/verify">
+              {routerProps => (
+                <AsyncVerifyPageContainer
+                  {...routerProps}
+                  onToken={long_token => {
+                    localStorage.setItem("long_token", long_token);
+                    this.setState({ long_token: long_token });
+                  }}
+                />
+              )}
+            </Route>
+            <Route exact path="/login">
+              {routerProps => (
+                <AsyncLoginPageContainer
+                  authenticated={this.state.long_token}
+                  {...routerProps}
+                />
+              )}
             </Route>
           </Switch>
           <Nav authenticated={this.state.long_token} />
         </Router>
       </ApolloProvider>
     );
-    /*
-    return (
-      <ApolloProvider client={this.state.client}>
-        <Container>
-          <PinsPageContainer authenticated={this.state.long_token} />
-          <AddPinPageContainer authenticated={this.state.long_token} />
-          <LoginPageContainer />
-          <ProfilePageContainer token={this.state.long_token}/>
-          <VerifyPageContainer
-            onToken={long_token => {
-              console.log("Setting Long Token");
-              localStorage.setItem("long_token", long_token);
-              this.setState({ long_token: long_token });
-            }}
-          />
-          <Nav authenticated={this.state.long_token} />
-        </Container>
-      </ApolloProvider>
-    );
-    */
   }
 }

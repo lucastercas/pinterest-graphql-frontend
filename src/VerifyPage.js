@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import qs from "query-string";
 
-class VerifyPage extends Component {
+export default class VerifyPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,10 +13,10 @@ class VerifyPage extends Component {
   componentDidMount() {
     if (this.props.match) {
       const query = qs.parse(this.props.location.search);
-      console.log('Query: ', query);
+      console.log("Query: ", query);
       this.props
-      // Send the short token to back-end, so it can be
-      // verified
+        // Send the short token to back-end, so it can be
+        // verified
         .verify(query.token)
         .then(() => {
           this.setState({ status: "success" });
@@ -29,7 +29,7 @@ class VerifyPage extends Component {
   }
 
   render() {
-    //console.log("Rendering Verify Page");
+    console.debug("Rendering Verify Page");
     if (!this.props.match) {
       return null;
     }
@@ -49,9 +49,3 @@ class VerifyPage extends Component {
     );
   }
 }
-
-export default props => (
-  <Route exact path="/verify">
-    {routerProps => <VerifyPage {...props} {...routerProps} />}
-  </Route>
-);
