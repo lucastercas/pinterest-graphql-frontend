@@ -34,6 +34,12 @@ export const GET_PIN = gql`
   }
 `;
 
+export const POST_COMMENT = gql`
+  mutation PostComent($comment: String!, $pin: String!) {
+    postComment(comment: $comment, pin: $pin)
+  }
+`;
+
 export const CREATE_LONG_LIVED_TOKEN = gql`
   mutation CreateLongLivedToken($short_token: String!) {
     createLongLivedToken(short_token: $short_token)

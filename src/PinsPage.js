@@ -27,7 +27,7 @@ export default class Pins extends Component {
           <ul className="pins">
             {this.props.pins.map((pin, idx) => (
               <li className="pin" key={idx}>
-                <a target="_blank" href={pin.link} rel="noopener noreferrer">
+                <a target="_blank" href={`${process.env.REACT_APP_URL}/pins/${pin.id}`} rel="noopener noreferrer">
                   <img src={pin.image} alt="" />
                   <div>
                     <h4 className="title text-center">{pin.id}</h4>

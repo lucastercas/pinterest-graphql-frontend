@@ -1,16 +1,80 @@
 import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+
+import { POST_COMMENT } from "./queries";
 
 export default class Pin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      comment: ""
+    };
+  }
+
+  handleChange = evt => {
+    this.setState({
+      comment: evt.target.value
+    });
+  };
+
+  handleComment = evt => {
+    console.log("Posting comment");
+    evt.preventDefault();
+    //this.props.postComment(this.state.comment)
+  };
+
   render() {
     if (!this.props.match) {
       return null;
     }
     return (
-      <div>
+      <div className="pin-page">
         {this.props.pin ? (
-          <img src={this.props.pin.image} alt="" />
+          <div className="pin">
+            <div className="pin-image">
+              <img src={this.props.pin.image} alt="" />
+            </div>
+
+            <div className="pin-info">
+              <div className="pin-title">
+                <h3>{this.props.pin.title}</h3>
+              </div>
+              <div className="comment-section">
+                <ul>
+                  <li>
+                    <a href="/" alt="Comment Author Profile">
+                      <h4 className="comment-author">Lucas Tercas:</h4>
+                    </a>
+                    <p className="comment-content">This photo is awesome!!!</p>
+                  </li>
+                </ul>
+                <Mutation mutation={POST_COMMENT}>
+                  {postComment => (
+                    <form onSubmit={(evt) => {
+                        evt.preventDefault()
+                        postComment({
+                          variables: {
+                            comment: this.state.comment,
+                            pin: this.props.pin.id
+                          }
+                        })
+                    }} >
+                      <input
+                        type=""
+                        value={this.state.comment}
+                        onChange={this.handleChange}
+                      />
+                      <button type="submit">Post Comment</button>
+                    </form>
+                  )}
+                </Mutation>
+              </div>
+            </div>
+          </div>
         ) : (
-          "No pin with this id"
+          <div>
+            <h3 className="error">No Pins with this ID</h3>
+          </div>
         )}
       </div>
     );

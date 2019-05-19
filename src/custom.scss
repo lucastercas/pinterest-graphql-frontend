@@ -1,13 +1,12 @@
 $red: #cc241d;
 
+body {
+  background: #fafafa;
+}
+
 .text-center {
   text-align: center;
   align-self: center;
-}
-
-.App {
-  padding-left: 100px;
-  padding-right: 100px;
 }
 
 .login-page {
@@ -42,7 +41,7 @@ $red: #cc241d;
     border-width: 1px;
     padding: 8px 14px;
     font-size: 16px;
-    letter-spacing: -.4px;
+    letter-spacing: -0.4px;
   }
 
   button {
@@ -59,6 +58,44 @@ $red: #cc241d;
   }
 }
 
+.pin-page {
+  width: 80vw;
+  margin: auto;
+  background: white;
+  margin-top: 10vh;
+  border: 1px solid black;
+
+  .pin {
+    display: flex;
+
+    .pin-info {
+      border: 1px solid;
+      width: 100vw;
+
+      .pin-title {
+        text-align: center;
+        padding: 1em;
+      }
+
+      .comment-section {
+        padding: 1em;
+
+        ul {
+          list-style-type: none;
+          
+          li {
+            background: grey;
+            p {
+              padding: 1em;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
 .pins {
   display: grid;
   list-style: none;
@@ -67,34 +104,34 @@ $red: #cc241d;
   padding: 2.5vmin;
   grid-auto-flow: dense;
   padding-bottom: 64px;
-}
 
-.pin {
-  display: flex;
-  max-height: 400px;
-  overflow-wrap: break-word;
-
-  a {
-    width: 100%;
+  .pin {
     display: flex;
-    flex-direction: column;
-  }
+    max-height: 400px;
+    overflow-wrap: break-word;
 
-  img {
-    object-fit: cover;
-    height: 90%;
-    width: 100%;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+    a {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .title {
-    font-weight: 700;
-    white-space: nowrap;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    margin: 0;
+    img {
+      object-fit: cover;
+      height: 90%;
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .title {
+      font-weight: 700;
+      white-space: nowrap;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
   }
 }
 
@@ -106,7 +143,7 @@ $red: #cc241d;
   width: 100%;
   bottom: 0;
   left: 0;
-  
+
   a {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -124,10 +161,10 @@ $red: #cc241d;
     padding: 0.7rem;
   }
 
-  button:hover {
-    opacity: 50%;
+  button {
+    border: none;
   }
-  
+
   .btn-home {
     background-color: blue;
   }
@@ -135,7 +172,7 @@ $red: #cc241d;
     background-color: $red;
   }
   .btn-profile {
-    background-color:  green;
+    background-color: green;
   }
 }
 
@@ -153,7 +190,7 @@ $red: #cc241d;
     border-style: solid;
     border-width: 1px;
     max-height: 40px;
-    padding:  10px 14px;
+    padding: 10px 14px;
     font-size: 16px;
   }
 

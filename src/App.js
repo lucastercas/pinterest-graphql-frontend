@@ -30,7 +30,7 @@ export default class App extends React.Component {
     this.state = {
       long_token: null,
       client: new ApolloClient({
-        uri: process.env.REACT_APP_API_URL,
+        uri: process.env.REACT_APP_GRAPHQL_URL,
         request: operation => {
           if (this.state.long_token) {
             operation.setContext({
@@ -51,7 +51,7 @@ export default class App extends React.Component {
     }
     this.setState({
       client: new ApolloClient({
-        uri: process.env.REACT_APP_API_URL,
+        uri: process.env.REACT_APP_GRAPHQL_URL,
         request: operation => {
           if (this.state.long_token) {
             operation.setContext({
@@ -114,7 +114,9 @@ export default class App extends React.Component {
               )}
             </Route>
             <Route path="/pins/:id">
-              {routerProps => <AsyncPinPageContainer {...routerProps} />}
+              {routerProps => <AsyncPinPageContainer 
+                {...routerProps}
+              />}
             </Route>
           </Switch>
           <Nav authenticated={this.state.long_token} />
