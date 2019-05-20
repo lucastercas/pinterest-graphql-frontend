@@ -4,7 +4,6 @@ export const ADD_PIN = gql`
   mutation AddPin($pin: PinInput!) {
     addPin(pin: $pin) {
       title
-      link
       image
     }
   }
@@ -15,7 +14,6 @@ export const LIST_PINS = gql`
     pins {
       id
       title
-      link
       image
       user_id
     }
@@ -27,7 +25,6 @@ export const GET_PIN = gql`
     pinById(id: $id) {
       id
       title
-      link
       image
       user_id
     }
