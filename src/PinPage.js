@@ -55,7 +55,8 @@ export default class Pin extends Component {
                         postComment({
                           variables: {
                             comment: this.state.comment,
-                            pin: this.props.pin.id
+                            pin_id: this.props.pin.id,
+                            user_id: this.props.authenticated
                           }
                         })
                     }} >

@@ -32,8 +32,8 @@ export const GET_PIN = gql`
 `;
 
 export const POST_COMMENT = gql`
-  mutation PostComent($comment: String!, $pin: String!) {
-    postComment(comment: $comment, pin: $pin)
+  mutation PostComent($comment: String!, $pin: String!, user: String!) {
+    postComment(comment: $comment, pin_id: $pin, user_id: $user)
   }
 `;
 
