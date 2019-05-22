@@ -54,9 +54,9 @@ export default class Pin extends Component {
                         evt.preventDefault()
                         postComment({
                           variables: {
-                            comment: this.state.comment,
+                            content: this.state.comment,
                             pin_id: this.props.pin.id,
-                            user_id: this.props.authenticated
+                            user_id: 'iaeiae'
                           }
                         })
                     }} >
