@@ -7,7 +7,6 @@ import { GET_PIN } from "./queries";
 
 export default class PinPageContainer extends Component {
   render() {
-    console.debug("Rendering Pin PageContainer");
     return (
       <Query query={GET_PIN} variables={{ id: this.props.match.params.id }}>
         {({ data }) => {

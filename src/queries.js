@@ -40,6 +40,15 @@ export const POST_COMMENT = gql`
   }
 `;
 
+export const COMMENTS_BY_PIN = gql`
+query CommentsByPin($pin_id: String!) {
+  commentsByPin(pin_id: $pin_id) {
+    content,
+    user_id
+  }
+}
+`;
+
 export const CREATE_LONG_LIVED_TOKEN = gql`
   mutation CreateLongLivedToken($short_token: String!) {
     createLongLivedToken(short_token: $short_token)

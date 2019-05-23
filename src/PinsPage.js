@@ -18,7 +18,6 @@ export default class Pins extends Component {
     if (!this.props.match) {
       return null;
     }
-    console.debug('Rendering Pins Page')
     if (this.props.pins.length === 0) {
       return this.renderNoPins();
     } else {

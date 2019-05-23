@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Mutation } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
+import  CommentsComponent from './CommentsComponent'
 
-import { POST_COMMENT } from "./queries";
+import { POST_COMMENT, COMMENTS_BY_PIN} from "./queries";
 
 export default class Pin extends Component {
   constructor(props) {
@@ -40,14 +41,18 @@ export default class Pin extends Component {
                 <h3>{this.props.pin.title}</h3>
               </div>
               <div className="comment-section">
-                <ul>
-                  <li>
-                    <a href="/" alt="Comment Author Profile">
-                      <h4 className="comment-author">Lucas Tercas:</h4>
-                    </a>
-                    <p className="comment-content">This photo is awesome!!!</p>
-                  </li>
-                </ul>
+                {this.props.pin.id && (
+                  <Query query={COMMENTS_BY_PIN} 
+                    variables={{pin_id: this.props.pin.id}}>
+                    {
+                      ({data}) => (
+                        <CommentsComponent
+                          comments={data.commentsByPin || []}
+                        />
+                      )
+                    }
+                  </Query>
+                )}
 
                 {this.props.authenticated ? (
                   <Mutation mutation={POST_COMMENT}>
