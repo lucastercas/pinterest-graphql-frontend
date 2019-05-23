@@ -115,7 +115,7 @@ export default class App extends React.Component {
             </Route>
             <Route path="/pins/:id">
               {routerProps => <AsyncPinPageContainer 
-                authentication={this.state.long_token}
+                authenticated={this.state.long_token}
                 {...routerProps}
               />}
             </Route>

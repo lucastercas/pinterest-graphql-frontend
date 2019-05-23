@@ -48,18 +48,21 @@ export default class Pin extends Component {
                     <p className="comment-content">This photo is awesome!!!</p>
                   </li>
                 </ul>
-                <Mutation mutation={POST_COMMENT}>
-                  {postComment => (
-                    <form onSubmit={(evt) => {
+
+                {this.props.authenticated ? (
+                  <Mutation mutation={POST_COMMENT}>
+                    {postComment => (
+                      <form onSubmit={(evt) => {
                         evt.preventDefault()
+                        console.debug('Posting Comment')
                         postComment({
                           variables: {
                             content: this.state.comment,
                             pin_id: this.props.pin.id,
-                            user_id: 'iaeiae'
+                            user_id: this.props.authenticated
                           }
                         })
-                    }} >
+                      }} >
                       <input
                         type=""
                         value={this.state.comment}
@@ -67,8 +70,11 @@ export default class Pin extends Component {
                       />
                       <button type="submit">Post Comment</button>
                     </form>
-                  )}
-                </Mutation>
+                    )}
+                  </Mutation>
+                ): (
+                  <div>Login to post a comment</div>
+                )}
               </div>
             </div>
           </div>
