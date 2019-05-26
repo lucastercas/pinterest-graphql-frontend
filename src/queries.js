@@ -32,8 +32,8 @@ export const GET_PIN = gql`
 `;
 
 export const POST_COMMENT = gql`
-  mutation PostComent($content: String!, $pin_id: String!, $user_id: String!) {
-    postComment(content: $content, pin_id: $pin_id, user_id: $user_id) {
+  mutation PostComent($content: String!, $pin_id: String!) {
+    postComment(content: $content, pin_id: $pin_id) {
       comment_id
       content
     }
@@ -41,12 +41,12 @@ export const POST_COMMENT = gql`
 `;
 
 export const COMMENTS_BY_PIN = gql`
-query CommentsByPin($pin_id: String!) {
-  commentsByPin(pin_id: $pin_id) {
-    content,
-    user_id
+  query CommentsByPin($pin_id: String!) {
+    commentsByPin(pin_id: $pin_id) {
+      content
+      user_id
+    }
   }
-}
 `;
 
 export const CREATE_LONG_LIVED_TOKEN = gql`
@@ -58,6 +58,28 @@ export const CREATE_LONG_LIVED_TOKEN = gql`
 export const CREATE_SHORT_LIVED_TOKEN = gql`
   mutation CreateShortLivedToken($email: String!) {
     sendShortLivedToken(email: $email)
+  }
+`;
+
+export const PINS_SUBSCRIPTIONS = gql`
+  subscription {
+    pinAdded {
+      id
+      title
+      image
+      user_id
+    }
+  }
+`;
+
+export const COMMENTS_SUBSCRIPTIONS = gql`
+  subscription {
+    commentPosted {
+      user_id
+      pin_id
+      comment_id
+      content
+    }
   }
 `;
 

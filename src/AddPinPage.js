@@ -6,7 +6,6 @@ export default class AddPinPage extends Component {
     super(props);
     this.state = {
       title: "",
-      link: "",
       image: "",
     };
   }
@@ -15,12 +14,10 @@ export default class AddPinPage extends Component {
     evt.preventDefault();
     this.props.addPin({
       title: this.state.title,
-      link: this.state.link,
       image: this.state.image,
     });
     this.setState({
       title: "",
-      link: "",
       image: "",
     });
     this.props.history.push("/");
@@ -49,13 +46,6 @@ export default class AddPinPage extends Component {
                 value={this.state.title}
                 onChange={evt => this.setState({ title: evt.target.value })}
                 placeholder="Title"
-                required
-              />
-              <input
-                type="url"
-                value={this.state.link}
-                onChange={evt => this.setState({ link: evt.target.value })}
-                placeholder="Link"
                 required
               />
               <input

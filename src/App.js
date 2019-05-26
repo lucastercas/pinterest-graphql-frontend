@@ -1,5 +1,11 @@
 import React from "react";
-import ApolloClient from "apollo-boost";
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloLink, Observable, split } from "apollo-link";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
+import { HttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
@@ -13,7 +19,9 @@ const AsyncLoginPageContainer = asyncComponent(() =>
 const AsyncPinsPageContainer = asyncComponent(() =>
   import("./PinsPageContainer")
 );
-const AsyncPinPageContainer = asyncComponent(() => import("./PinPageContainer"));
+const AsyncPinPageContainer = asyncComponent(() =>
+  import("./PinPageContainer")
+);
 const AsyncProfilePagecontainer = asyncComponent(() =>
   import("./ProfilePageContainer")
 );
@@ -27,40 +35,73 @@ const AsyncVerifyPageContainer = asyncComponent(() =>
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      long_token: null,
-      client: new ApolloClient({
-        uri: process.env.REACT_APP_GRAPHQL_URL,
-        request: operation => {
-          if (this.state.long_token) {
-            operation.setContext({
-              headers: { Authorization: this.state.long_token }
-            });
-          }
-        }
-      })
-    };
-  }
-
-  componentDidMount() {
-    console.log("App Did Mount");
     const long_token = localStorage.getItem("long_token");
-    console.log("Found Long Token");
-    if (long_token) {
-      this.setState({ long_token: long_token });
-    }
-    this.setState({
-      client: new ApolloClient({
-        uri: process.env.REACT_APP_GRAPHQL_URL,
-        request: operation => {
-          if (this.state.long_token) {
-            operation.setContext({
-              headers: { Authorization: this.state.long_token }
-            });
+    const client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: ApolloLink.from([
+        onError(({ graphQLErrors, networkErrors }) => {
+          if (graphQLErrors) {
           }
-        }
-      })
+          if (networkErrors) {
+          }
+        }),
+        new ApolloLink((operation, forward) => {
+          const request = async operation => {
+            if (this.state.long_token) {
+              operation.setContext({
+                headers: {
+                  Authorization: this.state.long_token
+                }
+              });
+            }
+          };
+          return new Observable(observer => {
+            let handle;
+            Promise.resolve(operation)
+              .then(oper => request(oper))
+              .then(() => {
+                handle = forward(operation).subscribe({
+                  next: observer.next.bind(observer),
+                  error: observer.error.bind(observer),
+                  complete: observer.complete.bind(observer)
+                });
+              })
+              .catch(observer.error.bind(observer));
+            return () => {
+              if (handle) handle.unsubscribe();
+            };
+          });
+        }),
+        split(
+          ({ query }) => {
+            const { kind, operation } = getMainDefinition(query);
+            return (
+              kind === "OperationDefinition" && operation === "subscription"
+            );
+          },
+          new WebSocketLink({
+            uri: process.env.REACT_APP_GRAPHQL_URL.replace(
+              "https://",
+              "wss://"
+            ),
+            options: {
+              reconnect: true,
+              connectionParams: {
+                authToken: long_token
+              }
+            }
+          }),
+          new HttpLink({
+            uri: process.env.REACT_APP_GRAPHQL_URL,
+            credentials: "same-origin"
+          })
+        )
+      ])
     });
+    this.state = {
+      long_token: long_token,
+      client: client
+    };
   }
 
   logout = () => {};
@@ -114,10 +155,12 @@ export default class App extends React.Component {
               )}
             </Route>
             <Route path="/pins/:id">
-              {routerProps => <AsyncPinPageContainer 
-                authenticated={this.state.long_token}
-                {...routerProps}
-              />}
+              {routerProps => (
+                <AsyncPinPageContainer
+                  authenticated={this.state.long_token}
+                  {...routerProps}
+                />
+              )}
             </Route>
           </Switch>
           <Nav authenticated={this.state.long_token} />

@@ -15,9 +15,7 @@ export default class Pins extends Component {
   };
 
   render() {
-    if (!this.props.match) {
-      return null;
-    }
+    console.log("Rendering Pins Page");
     if (this.props.pins.length === 0) {
       return this.renderNoPins();
     } else {
@@ -26,10 +24,13 @@ export default class Pins extends Component {
           <ul className="pins">
             {this.props.pins.map((pin, idx) => (
               <li className="pin" key={idx}>
-                <a target="_blank" href={`${process.env.REACT_APP_URL}/pins/${pin.id}`} rel="noopener noreferrer">
+                <a
+                  href={`${process.env.REACT_APP_URL}/pins/${pin.id}`}
+                  rel="noopener noreferrer"
+                >
                   <img src={pin.image} alt="" />
                   <div>
-                    <h4 className="title text-center">{pin.id}</h4>
+                    <h4 className="title text-center">{pin.title}</h4>
                   </div>
                 </a>
               </li>
@@ -40,4 +41,3 @@ export default class Pins extends Component {
     }
   }
 }
-
